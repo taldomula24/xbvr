@@ -245,9 +245,9 @@ func (o *Scene) GetVideoFilesSorted(sort string) ([]File, error) {
 
 	var files []File
 	if sort == "" {
-		commonDb.Preload("Volume").Where("scene_id = ? AND type = ?", o.ID, "video").Find(&files)
+		commonDb.Preload("Volume").Where("scene_id = ? AND type = ?", o.ID, "video").Order("CASE WHEN path LIKE '%/local/%' THEN 0 ELSE 1 END").Find(&files)
 	} else {
-		commonDb.Preload("Volume").Where("scene_id = ? AND type = ?", o.ID, "video").Order(sort).Find(&files)
+		commonDb.Preload("Volume").Where("scene_id = ? AND type = ?", o.ID, "video").Order("CASE WHEN path LIKE '%/local/%' THEN 0 ELSE 1 END" + "," + sort).Find(&files)
 	}
 
 	return files, nil
