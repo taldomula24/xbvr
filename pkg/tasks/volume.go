@@ -272,7 +272,7 @@ func scanLocalVolume(vol models.Volume, db *gorm.DB, tlog *logrus.Entry) {
 				fl.OsHash = fmt.Sprintf("%x", hash)
 			}
 
-			ffdata, err := ffprobe.GetProbeData(path, time.Second*5)
+			ffdata, err := ffprobe.GetProbeData(path, time.Second*20)
 			if err != nil {
 				tlog.Error("Error running ffprobe", path, err)
 			} else {
