@@ -1,0 +1,36 @@
+services:
+  mariadb:
+    image: mariadb
+    environment:
+      - MARIADB_RANDOM_ROOT_PASSWORD=1
+      - MARIADB_USER=xbvr
+      - MARIADB_PASSWORD=xbvr
+      - MARIADB_DATABASE=xbvr
+    ports:
+      - 33306:3306
+    volumes:
+      - ../data/mariadb:/var/lib/mysql
+    command: --sql_mode="NO_ENGINE_SUBSTITUTION"
+    restart: unless-stopped
+  xbvr:
+    depends_on:
+      - mariadb
+    image: ghcr.io/xbapps/xbvr:0.4.33-mod
+    environment:
+      - DATABASE_URL=mysql://xbvr:xbvr@mariadb:3306/xbvr?charset=utf8mb4&collation=utf8mb4_unicode_ci&parseTime=True&loc=Local
+    ports:
+      - 9997:9999
+    volumes:
+      - ../../M:/videos/local/milf
+      - ../../P/SLR:/videos/local/passthrough/slr
+      - ../../P/ARP:/videos/local/passthrough/arp
+      - ../../P/CzechAR:/videos/local/passthrough/czechar
+      - ../../T:/videos/local/trans
+      - ../../J:/videos/local/jav
+      - realdebrid:/videos/realdebrid/torrents
+      - ../data/xbvr:/root/.config/xbvr
+    restart: unless-stopped
+
+volumes:
+    realdebrid:
+        external: true
