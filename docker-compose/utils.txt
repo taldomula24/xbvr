@@ -1,0 +1,5 @@
+1 - In gitpod run:
+cd ui && yarn install --ignore-engines && yarn build && cd .. && go generate && go build --tags json1
+
+2 - Download xbvr generated file from gitpod and locally run:
+docker build --file Dockerfile --build-arg VERSION=0.4.33-mod --no-cache --platform linux/amd64 -t ghcr.io/xbapps/xbvr:0.4.33-mod .
